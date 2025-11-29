@@ -1,0 +1,61 @@
+in front
+
+npm install vite@latest front
+
+react
+
+javascript
+
+
+______________
+
+in back
+
+npm init - y (is installed in main folder .this will create a npm package file in main  folder)
+
+
+create server.js
+
+import express from "express";
+
+const app = express();
+
+app.get("/", (req, res)=>{
+ 	res.send("hello world");
+})
+
+app.listen(3000, ()=>{
+ 	console.log("Listening......");
+)
+
+_________________________________
+
+
+in package.json
+
+
+with in script
+
+"main": "server.js"
+
+"test": "node back/server.js"  (need to change the path to run)
+
+
+
+start server
+
+cmd -> node server.js
+_________________________________
+
+npm install nodemon --save-dev(this help to store in dev dependency)
+
+__________________________________________
+
+change the script in package to implement nodemon
+
+
+"server": nodemon back/server.js" (instead of test use server)
+
+cmd => npm run server
+
+__________________________________-
