@@ -1,5 +1,10 @@
-export const signup = (req, res)=>{
-    res.send("signup controller");
+export const signup =async (req, res)=>{
+    try {
+        const {username, fullname, password, confirmPassword} = req.body;
+        
+    } catch (error) {
+        
+    }
 }
 
 export const login = (req, res)=>{
