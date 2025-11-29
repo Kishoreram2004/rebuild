@@ -1,9 +1,19 @@
-const express = require("express");
+import express from "express"
+import authRoutes from "./routes/auth.routes.js"
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const PORT =  process.env.PORT || 9000;
+
 const app = express();
 
 app.get("/",(req,res)=>{
-    res.send("hello world");
+    res.send("home page");
 })
-app.listen(4000, ()=>{
-    console.log("listening");
+
+app.use("/api/auth", authRoutes)
+
+app.listen(PORT, ()=>{
+    console.log(`running in port ${PORT}`)
 })
