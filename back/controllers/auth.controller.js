@@ -1,13 +1,13 @@
 import User from "../models/user.model.js";
-
+import bcrypt from "bcryptjs"
 export const signup =async (req, res)=>{
     try {
-        const {username, fullname, password, confirmPassword} = req.body;
+        const {username, fullname, password, confirmPassword, gender} = req.body;
 
         if(password !== confirmPassword){
             return res.status(400).json({error:"password doesnt match"})
         }
-
+        
         const user = await User.findOne({username}) 
 
         if(user){
@@ -16,7 +16,7 @@ export const signup =async (req, res)=>{
 
         const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`
 
-        const girlProfilePic = 'const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${userName}`'
+        const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${username}`
 
         const salt = await bcrypt.genSalt(10);
 
@@ -31,18 +31,17 @@ export const signup =async (req, res)=>{
         })
 
         if(newUser){
-            await newUser.save()
-
-            res.status(201).json({
+            await newUser.save() // store in mongoDb
+            // this will be the response send back from the server once the request is successful
+            res.status(201).json({ 
             _id:newUser._id,
             fullname: newUser.fullname,
             username: newUser.username,
             profilePic: newUser.profilePic
             })
 
-        }else{
-            res.status(400).json({error:"invalid user  data"});
-
+        }else{    // if there is any error in the newUser this will send the status of 400 and a eror message as invalid data 
+             res.status(400).json({error:"invalid user  data"});
         }
 
     
