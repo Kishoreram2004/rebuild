@@ -42,7 +42,7 @@ export const signup =async (req, res)=>{
             profilePic: newUser.profilePic
             })
 
-        }else{    // if there is any error in the newUser this will send the status of 400 and a eror message as invalid data 
+        }else{    // if there is any error in the newUser this will send the status of 400 and a eror message as invalid data to frontend 
              res.status(400).json({error:"invalid user  data"});
         }
 
@@ -53,10 +53,33 @@ export const signup =async (req, res)=>{
     }
 }
 
-export const login = (req, res)=>{
-    res.send("login controller")
+export const login = async (req, res)=>{
+    try {
+        const {username, password} = req.body;
+        const user = await User.findOne({username});
+
+        const isCorrectPassword = await bcrypt.compare(password, user?.password || "");
+
+        if(!user || !isCorrectPassword){
+            res.status(400).json({error:"invalid username or password"});
+        }
+
+        generateTokenAndSetCookies(user._id, res);
+        res.status(200).json({
+            _id:user.id,
+            fullname: user.fullname,
+            username: user.username,
+            profilePic: user.profilePic
+        }) 
+
+    } catch (error) {
+        console.log("error in login controller", error.message)
+        //this .json will send the error message to the frontend  
+        res.status(500).json({error: "Internal server error...."})
+    } 
+
 }
 
-export const logout = (res,req)=>{
+export const logout = (res,req)=>{  
     res.send("logout controller");
 }
