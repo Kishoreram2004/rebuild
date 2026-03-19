@@ -1,5 +1,6 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs"
+import generateTokenAndSetCookies from "../utils/generateToken.js";
 export const signup =async (req, res)=>{
     try {
         const {username, fullname, password, confirmPassword, gender} = req.body;
@@ -32,6 +33,7 @@ export const signup =async (req, res)=>{
 
         if(newUser){
             await newUser.save() // store in mongoDb
+            generateTokenAndSetCookies(newUser._id, res); // this will generate the jwt token.
             // this will be the response send back from the server once the request is successful
             res.status(201).json({ 
             _id:newUser._id,
