@@ -13,6 +13,8 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes)
 
+//app.use("/api/message", messageRoutes)
+
 app.listen(PORT, ()=>{
     connectToMongoDB()
     console.log(`running in port ${PORT}`)
